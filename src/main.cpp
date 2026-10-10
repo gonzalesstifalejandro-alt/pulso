@@ -1,3 +1,5 @@
+#include "http/handler_alerts.hpp"
+
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -275,6 +277,16 @@ server.Get("/version", [](
     );
 });
 server.Get("/config", handle_config);
+
+// GET /alerts
+    server.Get("/alerts", [](const httplib::Request& req, httplib::Response& res) {
+        res.set_content(
+            pulso::http::handleAlerts(),
+            "application/json"
+        );
+    });
+    
+
 
     // GET /metrics — pendiente hasta que SystemMonitor se adapte al flujo
     // actual (Storage + ICollector). Ver issue #270.
